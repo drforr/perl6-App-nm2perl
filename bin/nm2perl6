@@ -1,0 +1,27 @@
+#!/usr/bin/env perl6
+
+use v6.c;
+use App::nm2perl6;
+
+sub MAIN(
+	Str $input-file, #= Usually from nm(1)
+	Str $output?,    #= Optional output file
+	Str $compiler?,  #= Optional compiler name (default 'gnu')
+	Str $module?     #= Optional module name
+	) {
+#	say "Got in: " ~ $*IN;
+	#say "Got out: " ~ $*OUT;
+#say @*ARGS;
+#say $*ARGFILES;
+#say $_ for $*ARGFILES.lines;
+
+#if $*ARGFILES {
+#	say "Args found!";
+#	say $*ARGFILES.perl;
+#}
+
+	# XXX Fix this
+	if $compiler-name {
+	}
+	my $nm = App::
+}
