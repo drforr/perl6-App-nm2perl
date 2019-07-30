@@ -5,32 +5,12 @@ use App::nm2perl6::gnu;
 #`{ Nibble off bits that match
 class Foo is repr<CPPStruct> {
 
-    method TakeAVoid()                             returns int32 is native("./13-cpp-mangling") { * }
-    method TakeABool(Bool)                         returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAChar(int8)                         returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAShort(int16)                       returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAnInt(int32)                        returns int32 is native("./13-cpp-mangling") { * }
-    method TakeALong(long)                         returns int32 is native("./13-cpp-mangling") { * }
-    method TakeALongLong(longlong)                 returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAFloat(num32)                       returns int32 is native("./13-cpp-mangling") { * }
-    method TakeADouble(num64)                      returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAString(Str)                        returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAnArray(CArray[int32])              returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAPointer(Pointer)                   returns int32 is native("./13-cpp-mangling") { * }
-    method TakeABoolPointer(Pointer[Bool])         returns int32 is native("./13-cpp-mangling") { * }
     method TakeACharPointer(Pointer[int8])         returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAShortPointer(Pointer[int16])       returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAnIntPointer(Pointer[int32])        returns int32 is native("./13-cpp-mangling") { * }
-    method TakeALongPointer(Pointer[long])         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeALongLong(longlong)                 returns int32 is native("./13-cpp-mangling") { * }
     method TakeALongLongPointer(Pointer[longlong]) returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAFloatPointer(Pointer[num32])       returns int32 is native("./13-cpp-mangling") { * }
-    method TakeADoublePointer(Pointer[num64])      returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAUInt(uint32)                       returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAUShort(uint16)                     returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAUChar(uint8)                       returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAInt64(int64)                       returns int32 is native("./13-cpp-mangling") { * }
     method TakeAULongLong(ulonglong)               returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAUInt64(uint64)                     returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAVoid()                             returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAnArray(CArray[int32])              returns int32 is native("./13-cpp-mangling") { * }
 }
 }
 
@@ -145,11 +125,11 @@ class Foo is repr<CPPStruct> {
 		method TakeAFloat( num32 ) is native( 'library' ) { * }
 		method TakeAFloatPointer( Pointer[ num32 ] ) is native( 'library' ) { * }
 		method TakeAInt64( int64 ) is native( 'library' ) { * }
-		method TakeALong( NativeCall::Types::long ) is native( 'library' ) { * }
+		method TakeALong( long ) is native( 'library' ) { * }
 		method TakeALongLong( int64 ) is native( 'library' ) { * }
 		method TakeALongLongPointer( Pointer[ int64 ] ) is native( 'library' ) { * }
-		method TakeALongPointer( Pointer[ NativeCall::Types::long ] ) is native( 'library' ) { * }
-		method TakeAPointer( Pointer[ NativeCall::Types::void ] ) is native( 'library' ) { * }
+		method TakeALongPointer( Pointer[ long ] ) is native( 'library' ) { * }
+		method TakeAPointer( Pointer ) is native( 'library' ) { * }
 		method TakeAShort( int16 ) is native( 'library' ) { * }
 		method TakeAShortPointer( Pointer[ int16 ] ) is native( 'library' ) { * }
 		method TakeAString( Str ) is native( 'library' ) { * }

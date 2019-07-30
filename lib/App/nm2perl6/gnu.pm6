@@ -8,7 +8,7 @@ my %argument-type =
 #	Pc => 'Str',
 	b  => 'Bool',
 	v  => 'NativeCall::Types::void',
-	l  => 'NativeCall::Types::long',
+	l  => 'long',
 	m  => 'NativeCall::Types::ulong',
 
 	h  => 'uint8',
@@ -88,6 +88,9 @@ unless %argument-type{~$letter} {
 	if $P {
 		if $letter eq 'c' {
 			$type ~= 'Str';
+		}
+		elsif $letter eq 'v' {
+			$type ~= 'Pointer';
 		}
 		else {
 			$type ~= 'Pointer[ ' ~ %argument-type{~$letter} ~ ' ]';
