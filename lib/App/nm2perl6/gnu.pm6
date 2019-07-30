@@ -90,7 +90,7 @@ unless %argument-type{~$letter} {
 			$type ~= 'Str';
 		}
 		else {
-			$type ~= 'CArray[ ' ~ %argument-type{~$letter} ~ ' ]';
+			$type ~= 'Pointer[ ' ~ %argument-type{~$letter} ~ ' ]';
 		}
 	}
 	else {

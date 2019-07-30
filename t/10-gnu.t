@@ -137,21 +137,21 @@ class Foo is repr<CPPStruct> {
 	class Foo is repr( 'CPPStruct' ) {
 		has Pointer $.vtable;
 		method TakeABool( Bool ) is native( 'library' ) { * }
-		method TakeABoolPointer( CArray[ Bool ] ) is native( 'library' ) { * }
+		method TakeABoolPointer( Pointer[ Bool ] ) is native( 'library' ) { * }
 		method TakeAChar( int8 ) is native( 'library' ) { * }
 		method TakeACharPointer( Str ) is native( 'library' ) { * }
 		method TakeADouble( num64 ) is native( 'library' ) { * }
-		method TakeADoublePointer( CArray[ num64 ] ) is native( 'library' ) { * }
+		method TakeADoublePointer( Pointer[ num64 ] ) is native( 'library' ) { * }
 		method TakeAFloat( num32 ) is native( 'library' ) { * }
-		method TakeAFloatPointer( CArray[ num32 ] ) is native( 'library' ) { * }
+		method TakeAFloatPointer( Pointer[ num32 ] ) is native( 'library' ) { * }
 		method TakeAInt64( int64 ) is native( 'library' ) { * }
 		method TakeALong( NativeCall::Types::long ) is native( 'library' ) { * }
 		method TakeALongLong( int64 ) is native( 'library' ) { * }
-		method TakeALongLongPointer( CArray[ int64 ] ) is native( 'library' ) { * }
-		method TakeALongPointer( CArray[ NativeCall::Types::long ] ) is native( 'library' ) { * }
-		method TakeAPointer( CArray[ NativeCall::Types::void ] ) is native( 'library' ) { * }
+		method TakeALongLongPointer( Pointer[ int64 ] ) is native( 'library' ) { * }
+		method TakeALongPointer( Pointer[ NativeCall::Types::long ] ) is native( 'library' ) { * }
+		method TakeAPointer( Pointer[ NativeCall::Types::void ] ) is native( 'library' ) { * }
 		method TakeAShort( int16 ) is native( 'library' ) { * }
-		method TakeAShortPointer( CArray[ int16 ] ) is native( 'library' ) { * }
+		method TakeAShortPointer( Pointer[ int16 ] ) is native( 'library' ) { * }
 		method TakeAString( Str ) is native( 'library' ) { * }
 		method TakeAUChar( uint8 ) is native( 'library' ) { * }
 		method TakeAUInt( uint32 ) is native( 'library' ) { * }
@@ -159,9 +159,9 @@ class Foo is repr<CPPStruct> {
 		method TakeAULongLong( uint64 ) is native( 'library' ) { * }
 		method TakeAUShort( uint16 ) is native( 'library' ) { * }
 		method TakeAVoid( NativeCall::Types::void ) is native( 'library' ) { * }
-		method TakeAnArray( CArray[ int32 ] ) is native( 'library' ) { * }
+		method TakeAnArray( Pointer[ int32 ] ) is native( 'library' ) { * }
 		method TakeAnInt( int32 ) is native( 'library' ) { * }
-		method TakeAnIntPointer( CArray[ int32 ] ) is native( 'library' ) { * }
+		method TakeAnIntPointer( Pointer[ int32 ] ) is native( 'library' ) { * }
 		method new( NativeCall::Types::void ) is nativeconv( 'thisgnu' ) is native( 'library' ) { * }
 	}
 	_END_
