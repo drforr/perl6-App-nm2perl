@@ -14,12 +14,12 @@ my %argument-type =
 	h  => 'uint8',
 	t  => 'uint16',
 	j  => 'uint32',
-	y  => 'uint64',
+	y  => 'ulonglong',
 
 	c  => 'int8',
 	s  => 'int16',
 	i  => 'int32',
-	x  => 'int64',
+	x  => 'longlong',
 
 	f  => 'num32',
 	d  => 'num64'
@@ -138,6 +138,7 @@ if $scratch ~~ m{ ^ d } {
 	while $scratch {
 		my $new-argument = self.cpp-parameter( $scratch );
 		return unless $new-argument;
+		next if $new-argument eq 'NativeCall::Types::void';
 		@arguments.append: $new-argument;
 	}
 
@@ -301,19 +302,31 @@ method nm-to-perl6( Str $text ) {
 
 =head1 NAME
 
-App::nm2perl6 - blah blah blah
+App::nm2perl6 - Translate library symbols to valid Perl 6
 
 =head1 SYNOPSIS
 
 =begin code :lang<perl6>
 
-use App::nm2perl6;
+$ nm /path/to/libgecode.so | nm2perl6 > libgecode.pm6
 
 =end code
 
 =head1 DESCRIPTION
 
-App::nm2perl6 is ...
+Pipe the output from nm(1) into the nm2perl6 binary (or use the filename) and it will generate a set of Perl 6 classes and methods in the (mangled) symbol table. This is useful if you don't have headers for the library, or if you simplly don't want to waste the time trying to untangle the definitions.
+
+It can't distinguish between arrays and pointers because the C++ syntax is the same for both, so it (probably wrongly) defaults to 'Pointer[ type ]' for 'int32 *' and so on. C++ symbols don't come with usage or variables, so none are provided in the output.
+
+It does unpack the basic C<Bool>, C<Str>, C<long> types as well, but maybe not as consistently as you'd like. See the next section for some possible quirks. Also, the C++ unmangler only covers a limited range of types, so it's possible that this module will come up with type signatures that NativeCall can't understand (yet.)
+
+=head2 GNU quirks
+
+I have to choose between 'CArray' and 'Pointer', I'll just use 'Pointer' for now.
+
+'Pv' is just 'Pointer' type, as it's 'void*' in C.
+'Pc' is just 'Str' type
+'v' is ... not there.
 
 =head1 AUTHOR
 

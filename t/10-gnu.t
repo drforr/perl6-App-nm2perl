@@ -2,18 +2,6 @@ use v6.c;
 use Test;
 use App::nm2perl6::gnu;
 
-#`{ Nibble off bits that match
-class Foo is repr<CPPStruct> {
-
-    method TakeACharPointer(Pointer[int8])         returns int32 is native("./13-cpp-mangling") { * }
-    method TakeALongLong(longlong)                 returns int32 is native("./13-cpp-mangling") { * }
-    method TakeALongLongPointer(Pointer[longlong]) returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAULongLong(ulonglong)               returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAVoid()                             returns int32 is native("./13-cpp-mangling") { * }
-    method TakeAnArray(CArray[int32])              returns int32 is native("./13-cpp-mangling") { * }
-}
-}
-
 #`{
 class Foo is repr<CPPStruct> {
     has Pointer $.vtable;
@@ -124,10 +112,10 @@ class Foo is repr<CPPStruct> {
 		method TakeADoublePointer( Pointer[ num64 ] ) is native( 'library' ) { * }
 		method TakeAFloat( num32 ) is native( 'library' ) { * }
 		method TakeAFloatPointer( Pointer[ num32 ] ) is native( 'library' ) { * }
-		method TakeAInt64( int64 ) is native( 'library' ) { * }
+		method TakeAInt64( longlong ) is native( 'library' ) { * }
 		method TakeALong( long ) is native( 'library' ) { * }
-		method TakeALongLong( int64 ) is native( 'library' ) { * }
-		method TakeALongLongPointer( Pointer[ int64 ] ) is native( 'library' ) { * }
+		method TakeALongLong( longlong ) is native( 'library' ) { * }
+		method TakeALongLongPointer( Pointer[ longlong ] ) is native( 'library' ) { * }
 		method TakeALongPointer( Pointer[ long ] ) is native( 'library' ) { * }
 		method TakeAPointer( Pointer ) is native( 'library' ) { * }
 		method TakeAShort( int16 ) is native( 'library' ) { * }
@@ -135,14 +123,14 @@ class Foo is repr<CPPStruct> {
 		method TakeAString( Str ) is native( 'library' ) { * }
 		method TakeAUChar( uint8 ) is native( 'library' ) { * }
 		method TakeAUInt( uint32 ) is native( 'library' ) { * }
-		method TakeAUInt64( uint64 ) is native( 'library' ) { * }
-		method TakeAULongLong( uint64 ) is native( 'library' ) { * }
+		method TakeAUInt64( ulonglong ) is native( 'library' ) { * }
+		method TakeAULongLong( ulonglong ) is native( 'library' ) { * }
 		method TakeAUShort( uint16 ) is native( 'library' ) { * }
-		method TakeAVoid( NativeCall::Types::void ) is native( 'library' ) { * }
+		method TakeAVoid(  ) is native( 'library' ) { * }
 		method TakeAnArray( Pointer[ int32 ] ) is native( 'library' ) { * }
 		method TakeAnInt( int32 ) is native( 'library' ) { * }
 		method TakeAnIntPointer( Pointer[ int32 ] ) is native( 'library' ) { * }
-		method new( NativeCall::Types::void ) is nativeconv( 'thisgnu' ) is native( 'library' ) { * }
+		method new(  ) is nativeconv( 'thisgnu' ) is native( 'library' ) { * }
 	}
 	_END_
 };
@@ -211,7 +199,6 @@ int Foo::TakeAInt64(long long i)            { return 23; }
 int Foo::TakeAULongLong(unsigned long long i) { return 24; }
 int Foo::TakeAUInt64(unsigned long long i)    { return 25; }
 }
-
 
 {
 	my $nm = App::nm2perl6::gnu.new;

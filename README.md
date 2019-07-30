@@ -1,19 +1,19 @@
 NAME
 ====
 
-App::nm2perl6 - blah blah blah
+App::nm2perl6 - Unmangle C++ symbols to valid Perl 6
 
 SYNOPSIS
 ========
 
-```perl6
-use App::nm2perl6;
+```
+$ nm /path/to/libgecode.so | nm2perl6 > libgecode.pm6
 ```
 
 DESCRIPTION
 ===========
 
-App::nm2perl6 is ...
+Given a C++ library, use the output from nm(1) to generate one or more valid Perl 6 NativeCall class definitions using the "mangled" symbol names. This is useful when you don't have headers, or even have the header files but can't figure out how they work.
 
 AUTHOR
 ======
