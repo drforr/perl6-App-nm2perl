@@ -2,6 +2,237 @@ use v6.c;
 use Test;
 use App::nm2perl6::gnu;
 
+#`{ Nibble off bits that match
+class Foo is repr<CPPStruct> {
+
+    method TakeAVoid()                             returns int32 is native("./13-cpp-mangling") { * }
+    method TakeABool(Bool)                         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAChar(int8)                         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAShort(int16)                       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAnInt(int32)                        returns int32 is native("./13-cpp-mangling") { * }
+    method TakeALong(long)                         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeALongLong(longlong)                 returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAFloat(num32)                       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeADouble(num64)                      returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAString(Str)                        returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAnArray(CArray[int32])              returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAPointer(Pointer)                   returns int32 is native("./13-cpp-mangling") { * }
+    method TakeABoolPointer(Pointer[Bool])         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeACharPointer(Pointer[int8])         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAShortPointer(Pointer[int16])       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAnIntPointer(Pointer[int32])        returns int32 is native("./13-cpp-mangling") { * }
+    method TakeALongPointer(Pointer[long])         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeALongLongPointer(Pointer[longlong]) returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAFloatPointer(Pointer[num32])       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeADoublePointer(Pointer[num64])      returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAUInt(uint32)                       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAUShort(uint16)                     returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAUChar(uint8)                       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAInt64(int64)                       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAULongLong(ulonglong)               returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAUInt64(uint64)                     returns int32 is native("./13-cpp-mangling") { * }
+}
+}
+
+#`{
+class Foo is repr<CPPStruct> {
+    has Pointer $.vtable;
+
+    method new()          is nativeconv('thisgnu')               is native("./13-cpp-mangling") { * }
+    method TakeAVoid()                             returns int32 is native("./13-cpp-mangling") { * }
+    method TakeABool(Bool)                         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAChar(int8)                         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAShort(int16)                       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAnInt(int32)                        returns int32 is native("./13-cpp-mangling") { * }
+    method TakeALong(long)                         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeALongLong(longlong)                 returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAFloat(num32)                       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeADouble(num64)                      returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAString(Str)                        returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAnArray(CArray[int32])              returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAPointer(Pointer)                   returns int32 is native("./13-cpp-mangling") { * }
+    method TakeABoolPointer(Pointer[Bool])         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeACharPointer(Pointer[int8])         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAShortPointer(Pointer[int16])       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAnIntPointer(Pointer[int32])        returns int32 is native("./13-cpp-mangling") { * }
+    method TakeALongPointer(Pointer[long])         returns int32 is native("./13-cpp-mangling") { * }
+    method TakeALongLongPointer(Pointer[longlong]) returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAFloatPointer(Pointer[num32])       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeADoublePointer(Pointer[num64])      returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAUInt(uint32)                       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAUShort(uint16)                     returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAUChar(uint8)                       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAInt64(int64)                       returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAULongLong(ulonglong)               returns int32 is native("./13-cpp-mangling") { * }
+    method TakeAUInt64(uint64)                     returns int32 is native("./13-cpp-mangling") { * }
+}
+}
+
+{
+	my $nm = App::nm2perl6::gnu.new;
+
+	$nm.process-lines: q:to[_END_];
+	0000000000202020 B __bss_start
+	0000000000202020 b completed.6972
+			 w __cxa_finalize@@GLIBC_2.2.5
+	0000000000000fc0 t deregister_tm_clones
+	0000000000001050 t __do_global_dtors_aux
+	0000000000201d10 t __do_global_dtors_aux_fini_array_entry
+	0000000000202018 d __dso_handle
+	0000000000201e10 d _DYNAMIC
+	0000000000202020 D _edata
+	0000000000202028 B _end
+	0000000000001300 T _fini
+	0000000000001090 t frame_dummy
+	0000000000201d08 t __frame_dummy_init_array_entry
+	00000000000017e8 r __FRAME_END__
+	0000000000202000 d _GLOBAL_OFFSET_TABLE_
+			 w __gmon_start__
+	0000000000001310 r __GNU_EH_FRAME_HDR
+	0000000000000f80 T _init
+			 w _ITM_deregisterTMCloneTable
+			 w _ITM_registerTMCloneTable
+	0000000000201d18 d __JCR_END__
+	0000000000201d18 d __JCR_LIST__
+			 w _Jv_RegisterClasses
+	0000000000001000 t register_tm_clones
+	0000000000202020 d __TMC_END__
+	0000000000001184 T _ZN3Foo10TakeAFloatEf
+	00000000000012c4 T _ZN3Foo10TakeAInt64Ex
+	0000000000001134 T _ZN3Foo10TakeAShortEs
+	00000000000012b0 T _ZN3Foo10TakeAUCharEh
+	0000000000001198 T _ZN3Foo11TakeADoubleEd
+	00000000000011c0 T _ZN3Foo11TakeAnArrayEPi
+	00000000000011ac T _ZN3Foo11TakeAStringEPc
+	00000000000012ec T _ZN3Foo11TakeAUInt64Ey
+	000000000000129a T _ZN3Foo11TakeAUShortEt
+	00000000000011d4 T _ZN3Foo12TakeAPointerEPv
+	0000000000001170 T _ZN3Foo13TakeALongLongEx
+	00000000000012d8 T _ZN3Foo14TakeAULongLongEy
+	00000000000011e8 T _ZN3Foo16TakeABoolPointerEPb
+	00000000000011fc T _ZN3Foo16TakeACharPointerEPc
+	0000000000001238 T _ZN3Foo16TakeALongPointerEPl
+	0000000000001224 T _ZN3Foo16TakeAnIntPointerEPi
+	0000000000001260 T _ZN3Foo17TakeAFloatPointerEPf
+	0000000000001210 T _ZN3Foo17TakeAShortPointerEPs
+	0000000000001274 T _ZN3Foo18TakeADoublePointerEPd
+	000000000000124c T _ZN3Foo20TakeALongLongPointerEPx
+	000000000000110c T _ZN3Foo9TakeABoolEb
+	0000000000001120 T _ZN3Foo9TakeACharEc
+	000000000000115c T _ZN3Foo9TakeALongEl
+	000000000000114a T _ZN3Foo9TakeAnIntEi
+	0000000000001288 T _ZN3Foo9TakeAUIntEj
+	00000000000010fc T _ZN3Foo9TakeAVoidEv
+	00000000000010c0 T _ZN3FooC1Ev
+	00000000000010c0 T _ZN3FooC2Ev
+	00000000000010de T _ZN3FooD1Ev
+	00000000000010de T _ZN3FooD2Ev
+	0000000000201e00 V _ZTI3Foo
+	0000000000001309 V _ZTS3Foo
+	0000000000201d20 V _ZTV3Foo
+			 U _ZTVN10__cxxabiv117__class_type_infoE@@CXXABI_1.3
+	_END_
+
+	is $nm.to-perl6, Q:to[_END_], q{from rakudo/13-cpp-mangling};
+	class Foo is repr( 'CPPStruct' ) {
+		has Pointer $.vtable;
+		method TakeABool( Bool ) is native( 'library' ) { * }
+		method TakeABoolPointer( CArray[ Bool ] ) is native( 'library' ) { * }
+		method TakeAChar( int8 ) is native( 'library' ) { * }
+		method TakeACharPointer( Str ) is native( 'library' ) { * }
+		method TakeADouble( num64 ) is native( 'library' ) { * }
+		method TakeADoublePointer( CArray[ num64 ] ) is native( 'library' ) { * }
+		method TakeAFloat( num32 ) is native( 'library' ) { * }
+		method TakeAFloatPointer( CArray[ num32 ] ) is native( 'library' ) { * }
+		method TakeAInt64( int64 ) is native( 'library' ) { * }
+		method TakeALong( NativeCall::Types::long ) is native( 'library' ) { * }
+		method TakeALongLong( int64 ) is native( 'library' ) { * }
+		method TakeALongLongPointer( CArray[ int64 ] ) is native( 'library' ) { * }
+		method TakeALongPointer( CArray[ NativeCall::Types::long ] ) is native( 'library' ) { * }
+		method TakeAPointer( CArray[ NativeCall::Types::void ] ) is native( 'library' ) { * }
+		method TakeAShort( int16 ) is native( 'library' ) { * }
+		method TakeAShortPointer( CArray[ int16 ] ) is native( 'library' ) { * }
+		method TakeAString( Str ) is native( 'library' ) { * }
+		method TakeAUChar( uint8 ) is native( 'library' ) { * }
+		method TakeAUInt( uint32 ) is native( 'library' ) { * }
+		method TakeAUInt64( uint64 ) is native( 'library' ) { * }
+		method TakeAULongLong( uint64 ) is native( 'library' ) { * }
+		method TakeAUShort( uint16 ) is native( 'library' ) { * }
+		method TakeAVoid( NativeCall::Types::void ) is native( 'library' ) { * }
+		method TakeAnArray( CArray[ int32 ] ) is native( 'library' ) { * }
+		method TakeAnInt( int32 ) is native( 'library' ) { * }
+		method TakeAnIntPointer( CArray[ int32 ] ) is native( 'library' ) { * }
+		method new( NativeCall::Types::void ) is nativeconv( 'thisgnu' ) is native( 'library' ) { * }
+	}
+	_END_
+};
+
+#`{ for this sample:
+
+class Foo {
+public:
+	Foo();
+	~Foo();
+	virtual int TakeAVoid(void);
+	virtual int TakeABool(bool i);
+	virtual int TakeAChar(char i);
+	virtual int TakeAShort(short i);
+	virtual int TakeAnInt(int i);
+	virtual int TakeALong(long i);
+	virtual int TakeALongLong(long long i);
+	virtual int TakeAFloat(float i);
+	virtual int TakeADouble(double i);
+	virtual int TakeAString(char *i);
+	virtual int TakeAnArray(int i[]);
+	virtual int TakeAPointer(void *i);
+	virtual int TakeABoolPointer(bool *i);
+	virtual int TakeACharPointer(char *i);
+	virtual int TakeAShortPointer(short *i);
+	virtual int TakeAnIntPointer(int *i);
+	virtual int TakeALongPointer(long *i);
+	virtual int TakeALongLongPointer(long long *i);
+	virtual int TakeAFloatPointer(float *i);
+	virtual int TakeADoublePointer(double *i);
+	virtual int TakeAUInt(unsigned int i);
+	virtual int TakeAUShort(unsigned short i);
+	virtual int TakeAUChar(unsigned char i);
+	virtual int TakeAInt64(long long i);
+	virtual int TakeAULongLong(unsigned long long i);
+	virtual int TakeAUInt64(unsigned long long i);
+};
+
+Foo::Foo()  { };
+Foo::~Foo() { };
+
+int Foo::TakeAVoid(void)                    { return  0; }
+int Foo::TakeABool(bool i)                  { return  1; }
+int Foo::TakeAChar(char i)                  { return  2; }
+int Foo::TakeAShort(short i)                { return  3; }
+int Foo::TakeAnInt(int i)                   { return  4; }
+int Foo::TakeALong(long i)                  { return  5; }
+int Foo::TakeALongLong(long long i)         { return  6; }
+int Foo::TakeAFloat(float i)                { return  7; }
+int Foo::TakeADouble(double i)              { return  8; }
+int Foo::TakeAString(char *i)               { return  9; }
+int Foo::TakeAnArray(int i[])               { return 10; }
+int Foo::TakeAPointer(void *i)              { return 11; }
+int Foo::TakeABoolPointer(bool *i)          { return 12; }
+int Foo::TakeACharPointer(char *i)          { return 13; }
+int Foo::TakeAShortPointer(short *i)        { return 14; }
+int Foo::TakeAnIntPointer(int *i)           { return 15; }
+int Foo::TakeALongPointer(long *i)          { return 16; }
+int Foo::TakeALongLongPointer(long long *i) { return 17; }
+int Foo::TakeAFloatPointer(float *i)        { return 18; }
+int Foo::TakeADoublePointer(double *i)      { return 19; }
+int Foo::TakeAUInt(unsigned int i)          { return 20; }
+int Foo::TakeAUShort(unsigned short i)      { return 21; }
+int Foo::TakeAUChar(unsigned char i)        { return 22; }
+int Foo::TakeAInt64(long long i)            { return 23; }
+int Foo::TakeAULongLong(unsigned long long i) { return 24; }
+int Foo::TakeAUInt64(unsigned long long i)    { return 25; }
+}
+
+
 {
 	my $nm = App::nm2perl6::gnu.new;
 
@@ -406,7 +637,7 @@ use App::nm2perl6::gnu;
 	0000000000009b50 W _ZNKSt5ctypeIcE8do_widenEc
 	_END_
 
-say $nm.classes;
+#say $nm.classes;
 };
 
 done-testing;

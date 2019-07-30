@@ -134,7 +134,7 @@ if $scratch ~~ m{ ^ d } {
 	#
 	while $scratch {
 		my $new-argument = self.cpp-parameter( $scratch );
-return unless $new-argument;
+		return unless $new-argument;
 		@arguments.append: $new-argument;
 	}
 
@@ -145,48 +145,6 @@ my $method-name = @names[*-1];
 
 	%.classes{$namespace}<methods>{$method-name}.push: @arguments;
 	%.classes{$namespace}<is-class> = True if $is-class;
-}
-
-#`{
-method to-method( Str $class-name, Str $method-name, Str $multi, $arguments ) {
-	qq:to[_END_];
-		{$multi}method {$method-name}( {$arguments} ) is native( 'LIBRARY' ) \{ * \}
-	_END_
-}
-}
-
-#`{
-method to-multi-method( Str $class-name, Str $method-name ) {
-	my $multi = '';
-	$multi = 'multi ' if %.namespace.{$class-name}.<methods>.elems > 1;
-
-	join( "",
-		map { self.to-method( $class-name, $method-name, $multi, $_ ) },
-			@( %.namespace.{$class-name}.<methods>.{$method-name} )
-	);
-}
-}
-
-#`{
-method to-class( Str $class-name ) {
-	my $method =
-		join( "", map { self.to-multi-method( $class-name, $_ ) },
-			%.namespace.{$class-name}.<methods>.keys.sort );
-
-	qq:to[_END_];
-	class {$class-name} is repr('CPPStruct') \{
-	{$method}
-	\}
-	_END_
-}
-}
-
-#`{
-method from-file-text( Str $body --> Str ) {
-	join( "\n",
-		map { self.to-class( $_ ) }, %.namespace.keys.sort
-	);
-}
 }
 
 # Value Type name
@@ -277,7 +235,49 @@ method process-lines( Str $text ) {
 	}
 }
 
+method to-perl6-method( Str $multi, Str $name, @arguments ) {
+	my $is-new = $name eq 'new';
+	my $nativeconv = '';
+	$nativeconv = "is nativeconv( 'thisgnu' ) " if $is-new;
+
+	"\t{$multi}method {$name}( { join( ", ", @arguments ) } ) {$nativeconv}is native( 'library' ) \{ * \}"
+}
+
+method to-perl6-multi-method( Str $name, @info ) {
+	my $is-multi = @info.elems > 1;
+	my $multi = $is-multi ?? 'multi ' !! '';
+
+	join( "\n",
+		map {
+			self.to-perl6-method( $multi, $name, @( $_ ) )
+		}, @info
+	);
+}
+
+method to-perl6-class( Str $name, %info ) {
+	my $repr   = 'CStruct';
+	my $vtable = '';
+
+	if %info<is-class> {
+		$repr   = 'CPPStruct';
+		$vtable = "\thas Pointer \$.vtable;";
+	}
+
+	"class {$name} is repr( '{$repr}' ) \{
+{$vtable}
+{join( "\n", map {
+	self.to-perl6-multi-method( $_, %info.<methods>{$_} )
+}, sort keys %info.<methods>
+)}
+\}\n"
+}
+
 method to-perl6 returns Str {
+	join( "",
+		map {
+			self.to-perl6-class( $_, %.classes{$_} )
+		}, sort keys %.classes
+	)
 }
 
 method nm-to-perl6( Str $text ) {
