@@ -219,90 +219,11 @@ my %builtin-types =
 #	u <source-name>	# vendor extended type
 ;
 
-method process-lines( Str $text ) {
-	for $text.lines -> $line {
-		# Skip line if there's no address.
-		next if $line ~~ m{ ^ \s+ };
-
-		my ( $address, $type, $name ) = $line.split( ' ' );
-
-		if $name ~~ m{ ^ '_ZTI' | '_ZTS' } {
-			self.verbose( "Skipping typeinfo '$name'" );
-			next;
-		}
-
-		next if $line ~~ m{ ^ '#' };      # XXX Mostly for debugging
-		next if $type eq 'U';             # XXX Skip undefined 
-		next unless $name ~~ m{ ^ '_Z' }; # XXX Think on this later
-
-		self.add-symbol( $name );
-	}
-}
-
-method to-perl6-method( Str $multi, Str $name, @arguments ) {
-	my $is-new = $name eq 'new';
-	my $nativeconv = '';
-	$nativeconv = "is nativeconv( 'thisgnu' ) " if $is-new;
-
-	"\t{$multi}method {$name}( { join( ", ", @arguments ) } ) {$nativeconv}is native( 'library' ) \{ * \}"
-}
-
-method to-perl6-multi-method( Str $name, @info ) {
-	my $is-multi = @info.elems > 1;
-	my $multi = $is-multi ?? 'multi ' !! '';
-
-	join( "\n",
-		map {
-			self.to-perl6-method( $multi, $name, @( $_ ) )
-		}, @info
-	);
-}
-
-method to-perl6-class( Str $name, %info ) {
-	my $repr   = 'CStruct';
-	my $vtable = '';
-
-	if %info<is-class> {
-		$repr   = 'CPPStruct';
-		$vtable = "\thas Pointer \$.vtable;";
-	}
-
-	"class {$name} is repr( '{$repr}' ) \{
-{$vtable}
-{join( "\n", map {
-	self.to-perl6-multi-method( $_, %info.<methods>{$_} )
-}, sort keys %info.<methods>
-)}
-\}\n"
-}
-
-method to-perl6 returns Str {
-	join( "",
-		map {
-			self.to-perl6-class( $_, %.classes{$_} )
-		}, sort keys %.classes
-	)
-}
-
-method nm-to-perl6( Str $text ) {
-	self.process-lines( $text );
-
-	my $final-text = self.to-perl6;
-
-	if $.output-filename {
-		my $fh = $final-text.IO.open( :w );
-		say $fh, $final-text;
-	}
-	else {
-		say $final-text;
-	}
-}
-
 =begin pod
 
 =head1 NAME
 
-App::nm2perl6 - Translate library symbols to valid Perl 6
+App::nm2perl6::gnu - Unmangle GCC/G++ C++ symbols to valid Perl 6
 
 =head1 SYNOPSIS
 
