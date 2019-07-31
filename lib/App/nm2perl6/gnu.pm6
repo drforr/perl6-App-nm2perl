@@ -67,8 +67,8 @@ method cpp-parameter( Str $str is rw --> Str ) {
 	}
 
 	my $modifier = '';
-	$modifier ~= 'const '     if $K and ( $R || $P ); # Not sure about ||
-	$modifier ~= 'Reference ' if $R;
+	$modifier ~= '#`{ const } '     if $K and ( $R || $P ); # Not sure about ||
+	$modifier ~= '#`{ Reference } ' if $R;
 
 	if $str ~~ s{ ^ <pascalish-string> } = '' {
 		return $modifier ~ $1;
