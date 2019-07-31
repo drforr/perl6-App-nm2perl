@@ -2,26 +2,27 @@
 
 use v6.c;
 use App::nm2perl6;
+use App::nm2perl6::gnu;
 
-sub MAIN(
-	Str $input-file, #= Usually from nm(1)
-	Str $output?,    #= Optional output file
-	Str $compiler?,  #= Optional compiler name (default 'gnu')
-	Str $module?     #= Optional module name
+sub MAIN( Str $input-file?,   #= Input file (default STDIN)
+	  Str $output-file?,  #= Output file (default STDOUT)
+	  Str $module-name?,  #= Module name (suggested for multiple classes)
+	  Str $compiler-name? #= Chosen based on operating system
 	) {
-#	say "Got in: " ~ $*IN;
-	#say "Got out: " ~ $*OUT;
-#say @*ARGS;
-#say $*ARGFILES;
-#say $_ for $*ARGFILES.lines;
-
-#if $*ARGFILES {
-#	say "Args found!";
-#	say $*ARGFILES.perl;
-#}
-
-	# XXX Fix this
-	if $compiler-name {
+	my $nm;
+	given $*KERNEL.^name {
+		default {
+			$nm = App::nm2perl6::gnu.new(
+				:output-filename( $output-file ),
+				:module-name( $module-name )
+			);
+		}
 	}
-	my $nm = App::
+
+	my $text = $input-file
+		?? $input-file.IO.slurp
+		!! join( "\n", $*ARGFILES.lines );
+
+	$nm.process-lines( $text );
+	say $nm.to-perl6;
 }

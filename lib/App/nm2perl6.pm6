@@ -5,7 +5,7 @@ has Bool $.is-verbose;
 
 has Str $.output-filename;
 has Str $.compiler-name;
-has Str $.output-module-name;
+has Str $.module-name;
 
 has %.classes;
 
