@@ -20,7 +20,7 @@ method verbose( Str $str ) {
 #
 
 method to-perl6-method( Str $multi, Str $name, @arguments ) {
-	my $is-new = $name eq 'new';
+	my $is-new     = $name eq 'new';
 	my $nativeconv = '';
 	$nativeconv = "is nativeconv( 'thisgnu' ) " if $is-new;
 
@@ -28,7 +28,7 @@ method to-perl6-method( Str $multi, Str $name, @arguments ) {
 }
 
 method to-perl6-multi-method( Str $name, @info ) {
-	my $is-multi = @info.elems > 1;
+	my $is-multi = @( @info ).elems > 1;
 	my $multi = $is-multi ?? 'multi ' !! '';
 
 	join( "\n",

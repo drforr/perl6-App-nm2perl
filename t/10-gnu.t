@@ -65,6 +65,57 @@ class Foo is repr<CPPStruct> {
 			 w _Jv_RegisterClasses
 	0000000000001000 t register_tm_clones
 	0000000000202020 d __TMC_END__
+	000000000000110c T _ZN3Foo9TakeABoolEb
+	000000000000110c T _ZN3Foo9TakeABoolEc
+	00000000000010c0 T _ZN3FooC1Ev
+	00000000000010c0 T _ZN3FooC2Ev
+	00000000000010de T _ZN3FooD1Ev
+	00000000000010de T _ZN3FooD2Ev
+	0000000000201e00 V _ZTI3Foo
+	0000000000001309 V _ZTS3Foo
+	0000000000201d20 V _ZTV3Foo
+			 U _ZTVN10__cxxabiv117__class_type_infoE@@CXXABI_1.3
+	_END_
+
+	is $nm.to-perl6, Q:to[_END_], q{from rakudo/13-cpp-mangling};
+	class Foo is repr( 'CPPStruct' ) {
+		has Pointer $.vtable;
+		multi method TakeABool( Bool ) is native( 'library' ) { * }
+		multi method TakeABool( int8 ) is native( 'library' ) { * }
+		method new(  ) is nativeconv( 'thisgnu' ) is native( 'library' ) { * }
+	}
+	_END_
+};
+
+{
+	my $nm = App::nm2perl6::gnu.new;
+
+	$nm.process-lines: q:to[_END_];
+	0000000000202020 B __bss_start
+	0000000000202020 b completed.6972
+			 w __cxa_finalize@@GLIBC_2.2.5
+	0000000000000fc0 t deregister_tm_clones
+	0000000000001050 t __do_global_dtors_aux
+	0000000000201d10 t __do_global_dtors_aux_fini_array_entry
+	0000000000202018 d __dso_handle
+	0000000000201e10 d _DYNAMIC
+	0000000000202020 D _edata
+	0000000000202028 B _end
+	0000000000001300 T _fini
+	0000000000001090 t frame_dummy
+	0000000000201d08 t __frame_dummy_init_array_entry
+	00000000000017e8 r __FRAME_END__
+	0000000000202000 d _GLOBAL_OFFSET_TABLE_
+			 w __gmon_start__
+	0000000000001310 r __GNU_EH_FRAME_HDR
+	0000000000000f80 T _init
+			 w _ITM_deregisterTMCloneTable
+			 w _ITM_registerTMCloneTable
+	0000000000201d18 d __JCR_END__
+	0000000000201d18 d __JCR_LIST__
+			 w _Jv_RegisterClasses
+	0000000000001000 t register_tm_clones
+	0000000000202020 d __TMC_END__
 	0000000000001184 T _ZN3Foo10TakeAFloatEf
 	00000000000012c4 T _ZN3Foo10TakeAInt64Ex
 	0000000000001134 T _ZN3Foo10TakeAShortEs
