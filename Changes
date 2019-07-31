@@ -2,5 +2,8 @@ Revision history for App-nm2perl6
 
 {{$NEXT}}
 
+0.0.2  2019-07-31T19:11:00Z
+    - Comment out 'const' and 'Reference' in output, hook up 'verbose' flag
+
 0.0.1  2019-07-31T04:05:23Z
     - Initial version
