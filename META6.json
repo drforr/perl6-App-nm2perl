@@ -4,15 +4,16 @@
   ],
   "build-depends" : [ ],
   "depends" : [ ],
-  "description" : "blah blah blah",
+  "description" : "Translate library symbols to valid Perl 6",
   "license" : "Artistic-2.0",
   "name" : "App::nm2perl6",
   "perl" : "6.c",
   "provides" : {
-    "App::nm2perl6" : "lib/App/nm2perl6.pm6"
+    "App::nm2perl6" : "lib/App/nm2perl6.pm6",
+    "App::nm2perl6::gnu" : "lib/App/nm2perl6/gnu.pm6"
   },
   "resources" : [ ],
-  "source-url" : "",
+  "source-url" : "https://github.com/drforr/perl6-App-nm2perl.git",
   "tags" : [ ],
   "test-depends" : [ ],
   "version" : "0.0.1"
