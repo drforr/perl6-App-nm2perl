@@ -1,5 +1,5 @@
 use v6.c;
-unit class App::nm2perl6:ver<0.0.2>;
+unit class App::nm2perl6:ver<0.0.3>;
 
 has Bool $.is-verbose;
 

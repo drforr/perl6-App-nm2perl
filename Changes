@@ -1,6 +1,7 @@
 Revision history for App-nm2perl6
 
 {{$NEXT}}
+    - Also add 'NativeCall' so the file compiles out of the gate.
 
 0.0.2  2019-07-31T19:11:00Z
     - Comment out 'const' and 'Reference' in output, hook up 'verbose' flag

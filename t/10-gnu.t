@@ -3,6 +3,8 @@ use Test;
 use App::nm2perl6::gnu;
 
 #`{
+use NativeCall;
+
 class Foo is repr<CPPStruct> {
     has Pointer $.vtable;
 
@@ -78,6 +80,8 @@ class Foo is repr<CPPStruct> {
 	_END_
 
 	is $nm.to-perl6, Q:to[_END_], q{from rakudo/13-cpp-mangling};
+	use NativeCall;
+
 	class Foo is repr( 'CPPStruct' ) {
 		has Pointer $.vtable;
 		multi method TakeABool( Bool ) is native( 'library' ) { * }
@@ -153,6 +157,8 @@ class Foo is repr<CPPStruct> {
 	_END_
 
 	is $nm.to-perl6, Q:to[_END_], q{from rakudo/13-cpp-mangling};
+	use NativeCall;
+
 	class Foo is repr( 'CPPStruct' ) {
 		has Pointer $.vtable;
 		method TakeABool( Bool ) is native( 'library' ) { * }
