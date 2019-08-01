@@ -57,7 +57,7 @@ method to-perl6-class( Str $name, %info ) {
 }
 
 method to-perl6 returns Str {
-	join( "",
+	"use NativeCall;\n\n" ~ join( "",
 		map {
 			self.to-perl6-class( $_, %.classes{$_} )
 		}, sort keys %.classes

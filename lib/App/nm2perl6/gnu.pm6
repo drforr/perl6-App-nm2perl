@@ -22,7 +22,9 @@ my %argument-type =
 	x  => 'longlong',
 
 	f  => 'num32',
-	d  => 'num64'
+	d  => 'num64',
+
+	a  => 'int8' # Signed char
 ;
 
 my %unknown-argument-type =
@@ -32,7 +34,6 @@ my %unknown-argument-type =
 	# I'm adding '# XXX' so they'll be noted but break compile
 	#
 	w  => 'wchar_t # XXX',
-	a  => 'signed char # XXX',
 	n  => '__int128 # XXX',
 	o  => 'unsigned __int128 # XXX',
 	e  => 'long double, __float80 # XXX',
@@ -42,7 +43,7 @@ my %unknown-argument-type =
 	De => 'IEEE 754r decimal floating point (128 bits) # XXX',
 	Df => 'IEEE 754r decimal floating point (32 bits) # XXX',
 	Dh => 'IEEE 754r half-precision floating point (16 bits) # XXX',
-#		DF <number> _ # ISO/IEC TS 18661 binary floating point type _FloatN (N bits)
+	#DF <number> _ # ISO/IEC TS 18661 binary floating point type _FloatN (N bits)
 	Di => 'char32_t # XXX',
 	Ds => 'char16_t # XXX',
 	Da => 'auto # XXX',
@@ -82,8 +83,8 @@ unless %argument-type{~$letter} {
 	return;
 }
 
-	$type ~= 'const '     if $K;
-	$type ~= 'Reference ' if $R;
+	$type ~= '#`{ const } '     if $K;
+	$type ~= '#`{ Reference } ' if $R;
 
 	if $P {
 		if $letter eq 'c' {
